@@ -25,6 +25,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
+
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(Doxygen QUIET)
@@ -107,18 +109,29 @@ else()
 endif()
 
 # GUI
+find_path(GLEW_INCLUDE_DIR GL/glew.h)
+find_library(GLEW_LIBRARY NAMES GLEW glew32 glew glew32s PATH_SUFFIXES lib64)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5OpenGL REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
-list(APPEND SOURCES src/gl_content.cpp src/main.cpp src/render_fundus.cpp src/render_mip.cpp src/render_sectors.cpp src/render_slice.cpp)
-list(APPEND LIBRARIES Qt5::OpenGL Qt5::Widgets Qt5::PrintSupport ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
+#link_libraries(${GLEW_LIBRARIES})
+link_libraries(${OPENGL_LIBRARIES})
+#target_link_libraries(GLEW::GLEW)
+
+list(APPEND SOURCES src/gl_content.cpp src/main.cpp src/render_fundus.cpp src/render_mip.cpp src/render_sectors.cpp src/render_slice.cpp)
+list(APPEND LIBRARIES Qt5::OpenGL Qt5::Widgets Qt5::PrintSupport GLEW::GLEW ${GLEW_LIBRARIES} ${glew32} ${OPENGL_LIBRARIES})
 set(CMAKE_AUTOMOC ON)
 add_executable(uocte ${SOURCES})
+#target_link_libraries(uocte ${glew32} )
 target_link_libraries(uocte ${LIBRARIES} )
+
+#list(APPEND SOURCES src/gl_content.cpp src/main.cpp)
+
+
 
 configure_file(src/mip.vert share/uocte/shader/mip.vert COPYONLY)
 configure_file(src/mip.frag share/uocte/shader/mip.frag COPYONLY)

@@ -52,11 +52,14 @@ make
 ```
 
 ```
+mingw32-make install
 sudo make install
 ```
 
 
-
+```
+copy all .dll from C:\msys64\mingw64\bin and C:\msys64\mingw64\share\qt5\plugins\platforms to the installed bin folder 
+```
 
 Usage
 -----

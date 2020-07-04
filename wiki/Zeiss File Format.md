@@ -1,0 +1,3 @@
+Because no specification of this file format was available for the development of uocte, the file format was reverse engineered for interoperability. The information on this page therefore is incomplete and may be incorrect. It only serves to document which parts of the data are interpreted by uocte and which assumptions it makes concerning interpretation.
+
+Zeiss file format was discontinued. It uses an excellent obfuctation strategy: The image data is probably JPEG2000 encoded (there is an JPEG end-of-stream marker at the end), but there is no header. Guessing the header is tedious (one would need to know the quatization used) to the point of being infeasible.
